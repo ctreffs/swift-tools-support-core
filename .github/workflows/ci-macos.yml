@@ -3,10 +3,9 @@ name: macOS
 on:
   workflow_dispatch:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
-
+    branches: [ main ]
 
 jobs:
   macOS-build-release:
@@ -19,6 +18,10 @@ jobs:
         uses: actions/checkout@v2.3.4
       - name: Select Xcode ${{ matrix.xcode }}
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app
+      - name: Build Debug
+        run: swift build -c debug
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
       - name: Build Release
         run: swift build -c release
         env:
