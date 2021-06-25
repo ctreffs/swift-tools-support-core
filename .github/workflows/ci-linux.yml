@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
+      - name: pkg-config sqlite3
+        run: pkg-config sqlite3 --debug
       - name: Build Debug
         run: swift build -c debug
       - name: Build Release
