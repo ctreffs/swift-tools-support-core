@@ -19,7 +19,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
       - name: Install sqlite3
-        run: apt-get install sqlite3 libsqlite3-dev
+        run: |
+          apt-get update
+          apt-get install sqlite3 libsqlite3-dev
       - name: pkg-config sqlite3
         run: pkg-config sqlite3 --debug
       - name: Build Debug
