@@ -1,0 +1,21 @@
+name: macOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  macOS-build-release:
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        xcode: ["12.4"]
+    steps:
+      - name: Build Release
+        run: swift build -c release
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
