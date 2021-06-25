@@ -1,0 +1,30 @@
+name: macOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  macOS-build-release:
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        xcode: ["12.4"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+      - name: Select Xcode ${{ matrix.xcode }}
+        run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app
+      - name: pkg-config sqlite3
+        run: pkg-config sqlite3 --debug
+      - name: Build Debug
+        run: swift build -c debug
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
+      - name: Build Release
+        run: swift build -c release
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
